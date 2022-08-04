@@ -54,25 +54,8 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User() {
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "user")
+    private List<MyTransaction> myTransactions = new ArrayList<>();
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", enabled=" + enabled +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", about='" + about + '\'' +
-                ", createdAt=" + createdAt +
-                ", ethAccount='" + ethAccount + '\'' +
-                ", ethBalance='" + ethBalance + '\'' +
-                ", roles=" + roles +
-                '}';
-    }
 }
 

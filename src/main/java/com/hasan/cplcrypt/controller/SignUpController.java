@@ -30,9 +30,9 @@ public class SignUpController {
 
     // Handler for registering user
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerUser(@Valid @ModelAttribute("user") User user,BindingResult bindingResult,
+    public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
                                @RequestParam(value = "agreement", defaultValue = "false") Boolean agreement,
-                               Model model, HttpSession session){
+                               Model model, HttpSession session) {
 
         try {
 
@@ -40,7 +40,7 @@ public class SignUpController {
                 System.out.println("You have not agreed the terms & conditions");
                 throw new Exception("You have not agreed the terms & conditions");
             }
-            if (bindingResult.hasErrors()){
+            if (bindingResult.hasErrors()) {
                 model.addAttribute("user", user);
                 return "sign_up";
             }
@@ -50,15 +50,16 @@ public class SignUpController {
             user.setEnabled(true);
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             user.setImageUrl("default.png");
-            System.out.println("USER: " + user.toString());
-            System.out.println("AGREEMENT: " + agreement);
 
             User savedUser = userService.save(user);
-            model.addAttribute("user", savedUser);
 
-            session.setAttribute("message",new MyMessage("Successfully Registered!! ", "alert-success"));
+            System.out.println("Saved User: " + savedUser.toString());
 
-            return "sign_in";
+
+            session.setAttribute("message", new MyMessage("Successfully Registered!! ", "alert-success"));
+            model.addAttribute("user", new User());
+
+            return "signIn";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("user", user);
